@@ -20,51 +20,21 @@ def index():
 
     title = 'Welcome to the One Minute Pitch'
 
-    search_movie = request.args.get('movie_query')
+    return render_template("index.html", title=title)
 
-    if search_movie:
-        return redirect(url_for('.search', movie_name=search_movie))
-    else:
-        return render_template('index.html', title = title, popular = popular_movies, upcoming = upcoming_movie, now_showing = now_showing_movie )
-
-
-@main.route('/movie/<int:id>')
-def movie(id):
-
-    '''
-    View movie page function that returns the movie details page and its data
-    '''
-    movie = get_movie(id)
-    title = f'{movie.title}'
-    reviews = Review.get_reviews(movie.id)
-
-    return render_template('movie.html',title = title,movie = movie,reviews = reviews)
-
-
-@main.route('/search/<movie_name>')
-def search(movie_name):
-    '''
-    View function to display the search results
-    '''
-    movie_name_list = movie_name.split(" ")
-    movie_name_format = "+".join(movie_name_list)
-    searched_movies = search_movie(movie_name_format)
-    title = f'search results for {movie_name}'
-    return render_template('search.html',movies = searched_movies)
-
-
-@main.route('/movie/review/new/<int:id>', methods = ['GET','POST'])
+@main.route('/user/<uname>&<id_user>')
 @login_required
-def new_review(id):
-    form = ReviewForm()
-    movie = get_movie(id)
+def profile(uname, id_user):
 
-    if form.validate_on_submit():
-        title = form.title.data
-        review = form.review.data
-        new_review = Review(movie.id,title,movie.poster,review)
-        new_review.save_review()
-        return redirect(url_for('.movie',id = movie.id ))
+    user = User.query.filter_by(username = uname).first()
+    title = f"{uname.capitalize()}'s Profile"
 
-    title = f'{movie.title} review'
-    return render_template('new_review.html',title = title, review_form=form, movie=movie)
+    get_pitches = Pitch.query.filter_by(user_id = id_user).all()
+    get_comments = Comment.query.filter_by(user_id = id_user).all()
+    get_upvotes = UpVote.query.filter_by(id_user = id_user).all()
+    get_downvotes = DownVote.query.filter_by(id_user = id_user).all()
+
+    if user is None:
+        abort(404)
+
+    return render_template('profile/profile.html', user = user, title=title, pitches_no = get_pitches, comments_no = get_comments, likes_no = get_upvotes, dislikes_no = get_downvotes)
