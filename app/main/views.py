@@ -162,6 +162,7 @@ def update_pic(uname):
     return redirect(url_for('main.profile',uname=uname,id_user=current_user.id))
 
 @main.route('/Interview')
+@login_required
 def Interview():
 
     '''
@@ -170,6 +171,7 @@ def Interview():
     return render_template("Interview.html")
 
 @main.route('/Pickupline')
+@login_required
 def Pickupline():
 
     '''
@@ -178,6 +180,7 @@ def Pickupline():
     return render_template("Pickupline.html")
 
 @main.route('/Promotion')
+@login_required
 def Promotion():
 
     '''
