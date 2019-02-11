@@ -4,6 +4,7 @@ from flask_login import login_user,logout_user,login_required, current_user
 from ..models import User
 from ..email import send_email, send_reset_email
 from .forms import LoginForm,RegistrationForm
+import os
 
 from .. import db
 
@@ -26,7 +27,6 @@ def logout():
     # flash("You have been successfully logged out")
     return redirect(url_for('main.index'))
 
-
 @auth.route('/register',methods = ['GET','POST'])
 def register():
     if current_user.is_authenticated:
@@ -38,7 +38,7 @@ def register():
         db.session.commit()
 
         # mail_message('Welcome to one minute pitch', 'email/welcome_user', user.email, user=user)
-        send_email(subject="Registration", sender=os.environ.get('MAIL_USERNAME'),recepients=[user.email],text_body='Test Email',html_body=render_template('500.html'))
+        # send_email(subject="Registration", sender=os.environ.get('MAIL_USERNAME'),recepients=[user.email],text_body='Test Email',html_body=render_template('fourOwfour.html'))
 
         return redirect(url_for('auth.login'))
 
