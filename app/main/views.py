@@ -20,14 +20,26 @@ def index():
 
     return render_template("index.html", title=title)
 
-@main.route('/Interview')
+@main.route('/Interview',methods = ['GET', 'POST'])
 @login_required
-def Interview():
+def Pickupline():
 
-    '''
-    View root page function that returns the index page and its data
-    '''
-    return render_template("Interview.html")
+    pitch_form = PitchFormI()
+
+    if pitch_form.validate_on_submit():
+        pitch = pitch_form.pitch.data
+        cat = pitch_form.my_category.data
+
+        new_pitch = Pitch(pitch_content=pitch, pitch_category = cat, user = current_user)
+        new_pitch.save_pitch()
+
+        #return redirect(url_for('index.html'))
+
+    all_pitches = Pitch.get_all_pitches()
+
+    title = 'Interview Pitch'
+
+    return render_template("Interview.html", pitch_form = pitch_form, pitches = all_pitches)
 
 @main.route('/Pickupline',methods = ['GET', 'POST'])
 @login_required
@@ -46,7 +58,7 @@ def Pickupline():
 
     all_pitches = Pitch.get_all_pitches()
 
-    title = 'Home | One Minute Pitch'
+    title = 'Pickupline Pitch'
 
     return render_template("Pickupline.html", pitch_form = pitch_form, pitches = all_pitches)
 
@@ -67,7 +79,7 @@ def Promotion():
 
     all_pitches = Pitch.get_all_pitches()
 
-    title = 'Home | One Minute Pitch'
+    title = 'Promotion Pitch'
 
     return render_template("Promotion.html", pitch_form = pitch_form, pitches = all_pitches)
 
