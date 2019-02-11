@@ -1,9 +1,8 @@
 from flask import render_template,request,redirect,url_for
 from . import main
-from ..requests import get_movies,get_movie,search_movie
 from .forms import ReviewForm
 from ..models import Review
-from flask_login import login_required
+from flask_login import login_required, current_user
 
 # Views
 @main.route('/')
@@ -14,9 +13,9 @@ def index():
     '''
 
     # Getting popular movie
-    popular_movies = get_movies('popular')
-    upcoming_movie = get_movies('upcoming')
-    now_showing_movie = get_movies('now_playing')
+    #popular_movies = get_movies('popular')
+    #upcoming_movie = get_movies('upcoming')
+    #now_showing_movie = get_movies('now_playing')
 
     title = 'Welcome to the One Minute Pitch'
 
