@@ -1,7 +1,7 @@
 from flask import render_template,request,redirect,url_for
 from . import main
-from .forms import ReviewForm
-from ..models import Review
+from .forms import ReviewForm , PitchForm
+from ..models import User, Pitch, Review,Comment, UpVote, DownVote
 from flask_login import login_required, current_user
 
 # Views
@@ -39,11 +39,23 @@ def Pickupline():
     '''
     return render_template("Pickupline.html")
 
-@main.route('/Promotion')
+@main.route('/Promotion',methods = ['GET', 'POST'])
 @login_required
 def Promotion():
 
-    '''
-    View root page function that returns the index page and its data
-    '''
-    return render_template("Promotion.html")
+    pitch_form = PitchForm()
+
+    if pitch_form.validate_on_submit():
+        pitch = pitch_form.pitch.data
+        cat = pitch_form.my_category.data
+
+        new_pitch = Pitch(pitch_content=pitch, pitch_category = cat, user = current_user)
+        new_pitch.save_pitch()
+
+        #return redirect(url_for('index.html'))
+
+    all_pitches = Pitch.get_all_pitches()
+
+    title = 'Home | One Minute Pitch'
+
+    return render_template("Promotion.html", pitch_form = pitch_form, pitches = all_pitches)
