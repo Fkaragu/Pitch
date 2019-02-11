@@ -160,3 +160,27 @@ def update_pic(uname):
         # user_photo = PhotoProfile(pic_path = path,user = user)
         db.session.commit()
     return redirect(url_for('main.profile',uname=uname,id_user=current_user.id))
+
+@main.route('/Interview')
+def Interview():
+
+    '''
+    View root page function that returns the index page and its data
+    '''
+    return render_template("Interview.html")
+
+@main.route('/Pickupline')
+def Pickupline():
+
+    '''
+    View root page function that returns the index page and its data
+    '''
+    return render_template("Pickupline.html")
+
+@main.route('/Promotion')
+def Promotion():
+
+    '''
+    View root page function that returns the index page and its data
+    '''
+    return render_template("Promotion.html")
