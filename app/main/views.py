@@ -22,7 +22,7 @@ def index():
 
 @main.route('/Interview',methods = ['GET', 'POST'])
 @login_required
-def Pickupline():
+def Interview():
 
     pitch_form = PitchFormI()
 
@@ -35,7 +35,7 @@ def Pickupline():
 
         #return redirect(url_for('index.html'))
 
-    all_pitches = Pitch.get_all_pitches()
+    all_pitches = Pitch.get_category('Interview')
 
     title = 'Interview Pitch'
 
@@ -56,7 +56,7 @@ def Pickupline():
 
         #return redirect(url_for('index.html'))
 
-    all_pitches = Pitch.get_all_pitches()
+    all_pitches = Pitch.get_category('PickupLine')
 
     title = 'Pickupline Pitch'
 
@@ -77,7 +77,7 @@ def Promotion():
 
         #return redirect(url_for('index.html'))
 
-    all_pitches = Pitch.get_all_pitches()
+    all_pitches = Pitch.get_category('Promotion')
 
     title = 'Promotion Pitch'
 
