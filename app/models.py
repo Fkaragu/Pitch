@@ -64,7 +64,7 @@ class User(UserMixin,db.Model):
 
     pitches = db.relationship('Pitch',backref='user',lazy='dynamic')
     comments = db.relationship('Comment',backref='user',lazy='dynamic')
-    
+
 
     @property
     def password(self):
@@ -79,17 +79,6 @@ class User(UserMixin,db.Model):
 
     def verify_password(self,password):
         return check_password_hash(self.hash_pass,password)
-
-    def get_reset_password_token(self, expires_in=600):
-        return jwt.encode({'reset_password':self.id, 'exp':time()+expires_in}, os.environ.get('SECRET_KEY'), algorithm='HS256').decode('utf-8')
-
-    @staticmethod
-    def verify_reset_password(token):
-        try:
-            id = jwt.decode(token, os.environ.get('SECRET_KEY'),algorithms=['HS256'])['reset_password']
-        except:
-            return
-        return User.query.get(id)
 
     def __repr__(self):
         return f'User {self.username}'

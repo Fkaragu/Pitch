@@ -4,6 +4,13 @@ from wtforms.validators import Required,Email,EqualTo
 from ..models import User
 from wtforms import ValidationError
 
+class LoginForm(FlaskForm):
+    email = StringField('Enter your email', validators=[Required(), Email()])
+    password = PasswordField('Password',validators=[Required()])
+    remember = BooleanField('Remember me')
+    submit = SubmitField('Sign In')
+
+
 class RegistrationForm(FlaskForm):
     email = StringField('Your Email Address', validators = [Required(), Email()])
     username = StringField('Enter your Username', validators=[Required()])
@@ -16,19 +23,4 @@ class RegistrationForm(FlaskForm):
             raise ValidationError('Account with that email exists')
     def validate_username(self, data_field):
         if User.query.filter_by(username = data_field.data).first():
-            raise ValidationError('That username is taken')
-
-class LoginForm(FlaskForm):
-    email = StringField('Enter your email', validators=[Required(), Email()])
-    password = PasswordField('Password',validators=[Required()])
-    remember = BooleanField('Remember me')
-    submit = SubmitField('Sign In')
-
-class ResetPassword(FlaskForm):
-    email = StringField('Email', validators=[Required(), Email()])
-    submit = SubmitField('Reset Password')
-
-class NewPassword(FlaskForm):
-    password = PasswordField('Password',validators=[Required()])
-    password_repeat = PasswordField('Repeat Password', validators=[Required(),EqualTo('password')])
-    submit = SubmitField('Change Password')
+            raise ValidationError('Username already allocated')
