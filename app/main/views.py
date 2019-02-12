@@ -101,11 +101,7 @@ def pitch(id):
         return redirect(url_for('main.pitch',id=id))
 
     all_comments = Comment.get_comments(id)
-    # print(all_comments)
-    # format_comments = markdown2.markdown(all_comments.comment_content,extras=["code-friendly", "fenced-code-blocks"])
-
-    up_likes = UpVote.get_votes(id)
-    down_likes = DownVote.get_downvotes(id)
 
     title = 'Comment | One Minute Pitch'
+    
     return render_template('pitch.html',pitch = my_pitch, comment_form = comment_form, comments = all_comments, title = title, likes = up_likes, dislikes=down_likes)
