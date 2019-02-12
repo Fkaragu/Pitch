@@ -102,6 +102,5 @@ def pitch(id):
 
     all_comments = Comment.get_comments(id)
 
-    title = 'Comment | One Minute Pitch'
-    
-    return render_template('pitch.html',pitch = my_pitch, comment_form = comment_form, comments = all_comments, title = title, likes = up_likes, dislikes=down_likes)
+    title = 'Comment Section'
+    return render_template('pitch.html',pitch = my_pitch, comment_form = comment_form, comments = all_comments, title = title)
