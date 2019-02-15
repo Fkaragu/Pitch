@@ -35,7 +35,7 @@ Pitch is a web application that provides a platform for the user to pitch his / 
     - Python 3.6 required
 
 ## Application link
-Here is a live working link
+Here is a live working link https://thashpitch.herokuapp.com/
 
 ## Set-up and Installation
     - Install python 3.6
